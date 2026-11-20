@@ -1,6 +1,7 @@
 package shopping;
 
 public class Product {
+    private static final int MAX_NAME_LENGTH = 15;
     private final String name;
     private final int price;
     private final String imageUrl;
@@ -9,7 +10,7 @@ public class Product {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("상품 이름은 비어 있을 수 없습니다.");
         }
-        if (name.length() > 15) {
+        if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("상품 이름은 15자를 초과할 수 없습니다.");
         }
         if (!name.matches("[가-힣a-zA-Z0-9 ()\\[\\]+&/_-]+")) {
