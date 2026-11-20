@@ -9,6 +9,9 @@ public class Product {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("상품 이름은 비어 있을 수 없습니다.");
         }
+        if (name.length() > 15) {
+            throw new IllegalArgumentException("상품 이름은 15자를 초과할 수 없습니다.");
+        }
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
