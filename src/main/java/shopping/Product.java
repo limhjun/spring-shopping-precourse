@@ -1,7 +1,18 @@
 package shopping;
 
+import java.util.regex.Pattern;
+
 public class Product {
+
     private static final int MAX_NAME_LENGTH = 15;
+    /*
+     * \p{L}: 유니코드 문자, \p{N}: 유니코드 숫자
+     * (): 소괄호, []: 대괄호, + - & / _: 허용된 특수 문자
+     * \\: Java 문자열에서 백슬래시(\)를 표현하는 이스케이프 시퀀스
+     * +: 문자 집합이 1회 이상 반복됨
+     */
+    private static final Pattern VALID_NAME_PATTERN = Pattern.compile("[\\p{L}\\p{N} ()\\[\\]+&/_-]+");
+
     private final String name;
     private final int price;
     private final String imageUrl;
@@ -13,7 +24,7 @@ public class Product {
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("상품 이름은 15자를 초과할 수 없습니다.");
         }
-        if (!name.matches("[가-힣a-zA-Z0-9 ()\\[\\]+&/_-]+")) {
+        if (!VALID_NAME_PATTERN.matcher(name).matches()) {
             throw new IllegalArgumentException("상품 이름에 허용되지 않은 문자가 포함되어 있습니다.");
         }
         this.name = name;
