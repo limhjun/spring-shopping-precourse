@@ -12,6 +12,9 @@ public class Product {
         if (name.length() > 15) {
             throw new IllegalArgumentException("상품 이름은 15자를 초과할 수 없습니다.");
         }
+        if (!name.matches("[가-힣a-zA-Z0-9 ()\\[\\]+&/_-]+")) {
+            throw new IllegalArgumentException("상품 이름에 허용되지 않은 문자가 포함되어 있습니다.");
+        }
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
