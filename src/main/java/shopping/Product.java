@@ -13,6 +13,8 @@ public class Product {
      */
     private static final Pattern VALID_NAME_PATTERN = Pattern.compile("[\\p{L}\\p{N} ()\\[\\]+&/_-]+");
     private static final long MAX_PRICE = 1_000_000L;
+    private static final String HTTP_PREFIX = "http://";
+    private static final String HTTPS_PREFIX = "https://";
 
     private final String name;
     private final long price;
@@ -30,6 +32,9 @@ public class Product {
         }
         if (price <= 0 || price > MAX_PRICE) {
             throw new IllegalArgumentException("상품 가격은 1원 이상 1,000,000원 이하이어야 합니다.");
+        }
+        if (imageUrl == null || !(imageUrl.startsWith(HTTP_PREFIX) || imageUrl.startsWith(HTTPS_PREFIX))) {
+            throw new IllegalArgumentException("이미지 URL은 http:// 혹은 https://로 시작해야 합니다.");
         }
         this.name = name;
         this.price = price;

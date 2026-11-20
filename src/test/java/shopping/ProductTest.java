@@ -78,4 +78,31 @@ public class ProductTest {
         assertThatCode(() -> new Product(VALID_NAME, price, VALID_IMAGE_URL))
                 .doesNotThrowAnyException();
     }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {
+            " ",
+            "example.com/a.png",
+            "ftp://example.com/a.png",
+            "httpsexample.com/a.png",
+            "//example.com/a.png",
+            " https://example.com/a.png",
+            "HTTPS://example.com/a.png"
+    })
+    void 이미지_URL은_http_혹은_https로_시작해야_한다(String imageUrl) {
+        assertThatThrownBy(() -> new Product(VALID_NAME, VALID_PRICE, imageUrl))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이미지 URL은 http:// 혹은 https://로 시작해야 합니다.");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "http://example.com/a.png",
+            "https://example.com/a.png"
+    })
+    void http_혹은_https로_시작하는_이미지_URL로_상품을_생성할_수_있다(String imageUrl) {
+        assertThatCode(() -> new Product(VALID_NAME, VALID_PRICE, imageUrl))
+                .doesNotThrowAnyException();
+    }
 }
