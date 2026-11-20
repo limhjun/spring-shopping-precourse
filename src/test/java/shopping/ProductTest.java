@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ProductTest {
 
+    private static final String VALID_NAME = "아이폰 듀오";
     private static final long VALID_PRICE = 1000L;
     private static final String VALID_IMAGE_URL = "https://example.com/a.png";
 
@@ -59,6 +60,22 @@ public class ProductTest {
     })
     void 이름에는_허용된_특수문자를_사용할_수_있다(String name) {
         assertThatCode(() -> new Product(name, VALID_PRICE, VALID_IMAGE_URL))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0, 1_000_001})
+    void 가격은_0보다_크고_100만원_이하여야_한다(int price) {
+        assertThatThrownBy(() ->
+                new Product(VALID_NAME, price, VALID_IMAGE_URL))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("상품 가격은 1원 이상 1,000,000원 이하이어야 합니다.");
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 999_999, 1_000_000})
+    void 유효한_범위의_가격으로_상품을_생성할_수_있다(int price) {
+        assertThatCode(() -> new Product(VALID_NAME, price, VALID_IMAGE_URL))
                 .doesNotThrowAnyException();
     }
 }

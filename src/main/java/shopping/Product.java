@@ -12,6 +12,7 @@ public class Product {
      * +: 문자 집합이 1회 이상 반복됨
      */
     private static final Pattern VALID_NAME_PATTERN = Pattern.compile("[\\p{L}\\p{N} ()\\[\\]+&/_-]+");
+    private static final long MAX_PRICE = 1_000_000L;
 
     private final String name;
     private final long price;
@@ -26,6 +27,9 @@ public class Product {
         }
         if (!VALID_NAME_PATTERN.matcher(name).matches()) {
             throw new IllegalArgumentException("상품 이름에 허용되지 않은 문자가 포함되어 있습니다.");
+        }
+        if (price <= 0 || price > MAX_PRICE) {
+            throw new IllegalArgumentException("상품 가격은 1원 이상 1,000,000원 이하이어야 합니다.");
         }
         this.name = name;
         this.price = price;
