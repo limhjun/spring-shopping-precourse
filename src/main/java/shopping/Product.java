@@ -14,10 +14,10 @@ public class Product {
     private static final Pattern VALID_NAME_PATTERN = Pattern.compile("[\\p{L}\\p{N} ()\\[\\]+&/_-]+");
 
     private final String name;
-    private final int price;
+    private final long price;
     private final String imageUrl;
 
-    public Product(String name, int price, String imageUrl) {
+    public Product(String name, long price, String imageUrl) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("상품 이름은 비어 있을 수 없습니다.");
         }

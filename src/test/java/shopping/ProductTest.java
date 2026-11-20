@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ProductTest {
 
-    private static final int VALID_PRICE = 1000;
+    private static final long VALID_PRICE = 1000L;
     private static final String VALID_IMAGE_URL = "https://example.com/a.png";
 
     @ParameterizedTest
