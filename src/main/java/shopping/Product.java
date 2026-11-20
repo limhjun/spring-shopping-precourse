@@ -1,7 +1,13 @@
 package shopping;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.regex.Pattern;
 
+@Entity
 public class Product {
 
     private static final int MAX_NAME_LENGTH = 15;
@@ -16,9 +22,16 @@ public class Product {
     private static final String HTTP_PREFIX = "http://";
     private static final String HTTPS_PREFIX = "https://";
 
-    private final String name;
-    private final long price;
-    private final String imageUrl;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private long price;
+    private String imageUrl;
+
+    protected Product() {
+    }
 
     public Product(String name, long price, String imageUrl) {
         if (name == null || name.isBlank()) {
@@ -40,4 +53,9 @@ public class Product {
         this.price = price;
         this.imageUrl = imageUrl;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }
