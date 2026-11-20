@@ -56,4 +56,22 @@ public class ProductApiTest {
         String secondBody = new String(second.getResponse().getContentAsByteArray(), StandardCharsets.UTF_8);
         assertThat(JsonPath.<Object>read(firstBody, "$.id")).isNotEqualTo(JsonPath.<Object>read(secondBody, "$.id"));
     }
+
+    @Test
+    void 상품_하나를_조회한다() {
+        MvcTestResult created = mvc.post().uri("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(PRODUCT_REQUEST)
+                .exchange();
+        String createdBody = new String(created.getResponse().getContentAsByteArray(), StandardCharsets.UTF_8);
+        Number id = JsonPath.read(createdBody, "$.id");
+
+        MvcTestResult result = mvc.get().uri("/api/products/{id}", id).exchange();
+
+        assertThat(result).hasStatus(HttpStatus.OK);
+        assertThat(result).bodyJson().extractingPath("$.id").isEqualTo(id.intValue());
+        assertThat(result).bodyJson().extractingPath("$.name").isEqualTo("아이폰 듀오");
+        assertThat(result).bodyJson().extractingPath("$.price").isEqualTo(1000);
+        assertThat(result).bodyJson().extractingPath("$.imageUrl").isEqualTo("https://example.com/a.png");
+    }
 }

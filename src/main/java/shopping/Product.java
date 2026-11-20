@@ -58,4 +58,16 @@ public class Product {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
 }
